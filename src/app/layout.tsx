@@ -6,14 +6,14 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
-
+import { Analytics } from "@vercel/analytics/react"
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
-  title: "مكتبة الكهف - تجهيزات مدرسية وأدوات رياضية",
+  title: "مكتبة الكهف -  مدرسية أدوات  و تجهيزات رياضية",
   description: "مكتبة الكهف توفر تجهيزات الدخول المدرسي والأدوات الرياضية، بالإضافة إلى خدمات الطباعة وإجراء البحوث. انضم إلى مسابقتنا الأسبوعية للفوز بجائزة قيمتها 2000 دينار جزائري.",
 };
 
@@ -37,13 +37,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-            <NavBar />
-            <main>
-              {children}
-            </main>
-            <Footer />
-            <Toaster />
+          <NavBar />
+          <main>
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

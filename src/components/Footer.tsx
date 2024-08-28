@@ -16,7 +16,7 @@ export default function Footer() {
                         <Logo />
                     </div>
                     <address className="not-italic text-sm text-muted-foreground">
-                        حي 11 ديسمبر 1962
+                        حي 11 ديسمبر 1960
                     </address>
                     <a href="tel:0781921767">0698111100</a>
                     <a href="mailto:alkahef39@gmail.com">alkahef39@gmail.com</a>
@@ -27,7 +27,7 @@ export default function Footer() {
                         <Link href="/" className="text-sm hover:underline" prefetch={false}>
                             الرئيسية
                         </Link>
-                        <Link href="/categories" className="text-sm hover:underline" prefetch={false}>
+                        <Link href="/quiz" className="text-sm hover:underline" prefetch={false}>
                             المسابقه
                         </Link>
                         <Link href="/about" className="text-sm hover:underline" prefetch={false}>
