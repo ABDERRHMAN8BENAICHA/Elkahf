@@ -21,10 +21,14 @@ import {
 
 // Define the schema for validation using zod
 const formSchema = z.object({
-    email: z.string().email({
-        message: "يرجى إدخال بريد إلكتروني صالح.",
+    username: z.string().min(1, {
+        message: "يرجى إدخال اسم المستخدم.",
+    }).min(6, {
+        message: "اسم المستخدم يجب أن يكون على الأقل 6 أحرف.",
     }),
-    password: z.string().min(6, {
+    password: z.string().min(1, {
+        message: "يرجى إدخال كلمة المرور.",
+    }).min(6, {
         message: "كلمة المرور يجب أن تكون على الأقل 6 أحرف.",
     }),
 });
@@ -35,14 +39,14 @@ type FormData = z.infer<typeof formSchema>;
 export default function Login() {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const { toast } = useToast(); // Initialize toast
+    const { toast } = useToast();
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
     });
 
     const onSubmit = async (values: FormData) => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,6 +55,7 @@ export default function Login() {
             });
 
             const data = await response.json();
+            console.log(data);
 
             if (!response.ok) {
                 setError(data.error || 'حدث خطأ أثناء تسجيل الدخول.');
@@ -79,12 +84,12 @@ export default function Login() {
                         <CardContent className="space-y-4">
                             <FormField
                                 control={form.control}
-                                name="email"
+                                name="username"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>البريد الإلكتروني</FormLabel>
+                                        <FormLabel>اسم المستخدم</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="أدخل بريدك الإلكتروني" {...field} />
+                                            <Input type="text" placeholder="أدخل اسم المستخدم" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

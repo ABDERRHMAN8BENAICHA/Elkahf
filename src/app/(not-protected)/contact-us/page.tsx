@@ -48,22 +48,16 @@ export default function page() {
                             <div className="flex items-center gap-2">
                                 <RiMapPin2Fill className="h-5 w-5 text-muted-foreground" />
                                 <p>
-                                    حي  الهدى
-                                    الزقم
-                                    بلدية حساني عبد الكريم
+                                    حي 11 ديسمبر 1962
                                 </p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <FaPhoneAlt className="h-5 w-5 text-muted-foreground" />
-                                <a href="tel:0781921767">0781921767</a><br />
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <FaPhoneAlt className="h-5 w-5 text-muted-foreground" />
-                                <a href="tel:0697835983">0697835983</a><br />
+                                <a href="tel:0698111100">0698111100</a><br />
                             </div>
                             <div className="flex items-center gap-2">
                                 <IoIosMail className="h-5 w-5 text-muted-foreground" />
-                                <a href="mailto:info@acme.com">info@acme.com</a>
+                                <a href="mailto:alkahef39@gmail.com">alkahef39@gmail.com</a>
                             </div>
                         </div>
                     </div>
@@ -71,7 +65,7 @@ export default function page() {
                         <h2 className="text-2xl font-bold">موقعنا</h2>
                         <div className="rounded-lg overflow-hidden aspect-video">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26623.683404082978!2d6.935393156928724!3d33.47638109307341!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12591b241be79947%3A0xe0aed79492ab3126!2z2KfZhNiy2YLZhdiMINio2YTYr9mK2Kkg2K3Ys9in2YbZiiDYudio2K8g2KfZhNmD2LHZitmF!5e0!3m2!1sar!2sdz!4v1724201259125!5m2!1sar!2sdz"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2387.110094602863!2d6.7984832!3d33.4955427!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12591973a2c6e04b%3A0x32fcc9b23ef1dcd5!2z2YXZg9iq2KjYqSDYp9mE2YPZh9mBINmE2YTYqtis2YfZitiy!5e1!3m2!1sar!2sdz!4v1724842117746!5m2!1sar!2sdz"
                                 width="600"
                                 height="450"
                                 style={{ border: 0 }}
@@ -85,3 +79,4 @@ export default function page() {
         </div>
     )
 }
+
