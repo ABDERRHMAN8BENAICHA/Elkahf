@@ -5,16 +5,19 @@ import {
     FaHome as HomeIcon,
     FaUsers as UsersIcon,
     FaQuestionCircle as QuestionIcon,
+    FaClock  as DateQuizIcon
 } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { FiLogOut } from 'react-icons/fi';
 import { ChevronRightIcon } from 'lucide-react';
 
+
 const data = [
     { title: 'الرئيسية', icon: <HomeIcon />, link: '/' },
     { title: 'المستخدمون', icon: <UsersIcon />, link: '/participant' },
     { title: 'الأسئلة', icon: <QuestionIcon />, link: '/question' },
+    { title: 'تاريخ المسابقة', icon: <DateQuizIcon />, link: '/date-quiz' },
 ];
 
 export default function Page() {

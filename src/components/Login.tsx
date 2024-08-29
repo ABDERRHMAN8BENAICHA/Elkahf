@@ -52,25 +52,32 @@ export default function Login() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(values),
+                credentials: "include"
             });
 
             const data = await response.json();
-            console.log(data);
 
-            if (!response.ok) {
+            if (!data.ok) {
                 setError(data.error || 'حدث خطأ أثناء تسجيل الدخول.');
-                toast({ description: data.error || 'حدث خطأ أثناء تسجيل الدخول.', variant: "destructive", });
+                toast({
+                    description: data.error || 'حدث خطأ أثناء تسجيل الدخول.',
+                    variant: "destructive",
+                });
                 return;
             }
 
-            // Save the token and redirect to dashboard
             toast({ description: 'تم تسجيل الدخول بنجاح!' });
-            router.push('/dashboard'); // Change the path as needed
+            router.push('/dashboard');
         } catch (error) {
             setError('حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً.');
-            toast({ description: 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً.', variant: "destructive", });
+            toast({
+                description: 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقاً.',
+                variant: "destructive",
+            });
+            console.log(error);
         }
     };
+
 
     return (
         <div className="flex items-center justify-center min-h-screen">
