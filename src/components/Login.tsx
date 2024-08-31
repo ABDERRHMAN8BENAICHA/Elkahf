@@ -19,6 +19,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
+
+
 // Define the schema for validation using zod
 const formSchema = z.object({
     username: z.string().min(1, {
@@ -52,11 +54,12 @@ export default function Login() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(values),
-                credentials: "include"
             });
 
             const data = await response.json();
-
+            // storeToken(data.data)
+            console.log(data);
+            
             if (!data.ok) {
                 setError(data.error || 'حدث خطأ أثناء تسجيل الدخول.');
                 toast({

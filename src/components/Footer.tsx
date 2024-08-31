@@ -27,9 +27,9 @@ export default function Footer() {
                         <Link href="/" className="text-sm hover:underline" prefetch={false}>
                             الرئيسية
                         </Link>
-                        <Link href="/quiz" className="text-sm hover:underline" prefetch={false}>
+                        {/* <Link href="/quiz" className="text-sm hover:underline" prefetch={false}>
                             المسابقه
-                        </Link>
+                        </Link> */}
                         <Link href="/about" className="text-sm hover:underline" prefetch={false}>
                             من نحن
                         </Link>
