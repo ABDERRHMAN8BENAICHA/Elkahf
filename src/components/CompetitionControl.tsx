@@ -102,7 +102,7 @@ export default function CompetitionControl() {
         const daysUntilThursday = (4 - dayOfWeek + 7) % 7
         const nextThursday = new Date(now)
         nextThursday.setDate(now.getDate() + daysUntilThursday)
-        nextThursday.setHours(17, 0, 0, 0) // Set to 5:00 PM
+        nextThursday.setHours(17, 0, 0, 0)
 
         if (now > nextThursday) {
             nextThursday.setDate(nextThursday.getDate() + 7)

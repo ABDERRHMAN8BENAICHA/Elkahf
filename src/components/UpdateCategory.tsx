@@ -107,7 +107,7 @@ export default function UpdateCategory({ id }: Props) {
                     variant: "default",
                     description: "تم تحديث الفئة بنجاح",
                 });
-                push("/dashboard"); // Redirect on success
+                push("/dashboard");
             } else {
                 toast({
                     variant: "destructive",

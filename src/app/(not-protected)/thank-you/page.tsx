@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { FaFacebookF, FaInstagram } from 'react-icons/fa'; // استيراد الأيقونات
+import { FaFacebookF, FaInstagram } from 'react-icons/fa'; 
 import Link from 'next/link';
 
 export default function ThankYouPage() {

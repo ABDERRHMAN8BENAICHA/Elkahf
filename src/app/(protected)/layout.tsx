@@ -1,27 +1,46 @@
-import { cookies } from 'next/headers';
-import React from 'react';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { redirect } from 'next/navigation';
+'use client';
 
-const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { getToken } from '../actions';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-    // const cookieStore = cookies();
-    // const token = cookieStore.get('token')?.value;
+type Props = {
+    children: React.ReactNode;
+};
 
-    // let mytoken: JwtPayload | null = null;
+export default function Layout({ children }: Props) {
+    const router = useRouter();
+    const [loading, setLoading] = useState(true);
 
-    // if (token) {
-    //     try {
-    //         mytoken = jwt.verify(token, SECRET_KEY) as JwtPayload; // Assert the type here
-    //     } catch (error) {
-    //         console.error('Invalid token', error);
-    //     }
-    // }
+    useEffect(() => {
+        async function checkAuth() {
+            try {
+                const token = await getToken();
+                if (!token) {
+                    router.push('/login');
+                } else {
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.error('Error checking authentication:', error);
+                router.push('/login');
+            }
+        }
 
-    // if (mytoken === null || mytoken.role !== 'ADMIN') {
-    //     redirect('/login');
-    // }
+        checkAuth();
+    }, [router]);
 
-    return <main>{children}</main>;
+    if (loading) {
+        return (
+            <main className="flex items-center justify-center h-screen">
+                <div className="loader"></div>
+            </main>
+        );
+    }
+
+    return (
+        <div>
+            {children}
+        </div>
+    );
 }

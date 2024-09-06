@@ -20,7 +20,7 @@ export type Category = {
     description: string
     createdAt: string
     updatedAt: string
-    products: any[] // Adjust type if you have a specific Product type
+    products: any[] 
 }
 
 export const categoryColumns: ColumnDef<Category | any>[] = [
@@ -97,39 +97,10 @@ export const categoryColumns: ColumnDef<Category | any>[] = [
                         >
                             نسخ معرف الفئة
                         </DropdownMenuItem>
-                        {/* <DropdownMenuItem>
-                            <Link href={`/category-products?categoryId=${category.id}`}>المنتجات</Link>
-                        </DropdownMenuItem> */}
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <Link href={`./categories/updete/${category.id}`}>تعديل</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                            deleteCategory(category.id)
-                        }}>مسح</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
         },
     },
 ]
-
-export async function deleteCategory(categoryId: string) {
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categories/${categoryId}`, {
-            method: 'DELETE',
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to delete category');
-        }
-
-        // Optionally, refresh the data or provide feedback
-        console.log('Category deleted successfully');
-        // You might want to trigger a re-fetch of the category data or update local state here
-
-    } catch (error) {
-        console.error('Error deleting category:', error);
-        // Handle error appropriately, e.g., show an alert to the user
-    }
-}

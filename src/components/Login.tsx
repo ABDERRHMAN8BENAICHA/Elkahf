@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useToast } from "@/components/ui/use-toast"; // Adjust the path as needed
+import { useToast } from "@/components/ui/use-toast";
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,10 +18,11 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { storeToken } from "@/app/actions";
 
 
 
-// Define the schema for validation using zod
+
 const formSchema = z.object({
     username: z.string().min(1, {
         message: "يرجى إدخال اسم المستخدم.",
@@ -35,7 +36,7 @@ const formSchema = z.object({
     }),
 });
 
-// Define types for form data
+
 type FormData = z.infer<typeof formSchema>;
 
 export default function Login() {
@@ -57,13 +58,12 @@ export default function Login() {
             });
 
             const data = await response.json();
-            // storeToken(data.data)
-            console.log(data);
+            storeToken(data.data)
             
             if (!data.ok) {
-                setError(data.error || 'حدث خطأ أثناء تسجيل الدخول.');
+                setError(data.msg || 'حدث خطأ أثناء تسجيل الدخول.');
                 toast({
-                    description: data.error || 'حدث خطأ أثناء تسجيل الدخول.',
+                    description: data.msg || 'حدث خطأ أثناء تسجيل الدخول.',
                     variant: "destructive",
                 });
                 return;
@@ -80,8 +80,12 @@ export default function Login() {
             console.log(error);
         }
     };
-
-
+    
+    // getToken().then(
+    //     (token) => {
+    //         console.log(token);
+    //     }
+    // )    
     return (
         <div className="flex items-center justify-center min-h-screen">
             <Card className="w-full max-w-md">

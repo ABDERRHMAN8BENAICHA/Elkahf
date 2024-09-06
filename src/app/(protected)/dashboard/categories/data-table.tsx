@@ -38,7 +38,7 @@ export type Category = {
     description: string;
     createdAt: string;
     updatedAt: string;
-    products: any[]; // Adjust type if you have a specific Product type
+    products: any[];
 };
 
 interface DataTableProps<TData> {

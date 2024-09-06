@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { MdLightMode, MdDarkMode } from 'react-icons/md'  // أيقونات الوضع الفاتح والوضع الداكن
+import { MdLightMode, MdDarkMode } from 'react-icons/md' 
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import {

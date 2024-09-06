@@ -5,12 +5,13 @@ import {
     FaHome as HomeIcon,
     FaUsers as UsersIcon,
     FaQuestionCircle as QuestionIcon,
-    FaClock  as DateQuizIcon
+    FaClock as DateQuizIcon
 } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { FiLogOut } from 'react-icons/fi';
 import { ChevronRightIcon } from 'lucide-react';
+import { deleteToken } from '@/app/actions';
 
 
 const data = [
@@ -25,22 +26,13 @@ export default function Page() {
 
     const handleLogout = async () => {
         try {
-            // Call the logout API
-            const response = await fetch('/api/logout', {
-                method: 'POST',
-            });
-
-            if (response.ok) {
-                // If logout is successful, redirect to the login page
-                router.push('/login');
-            } else {
-                console.error('Logout failed:', await response.json());
-            }
+            await deleteToken();
+            router.push('/login');
+            window.location.href = '/login';
         } catch (error) {
             console.error('An error occurred during logout:', error);
         }
     };
-
     return (
         <div className="flex flex-col rtl">
             <main className="flex-1 p-4">

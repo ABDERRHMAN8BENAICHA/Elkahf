@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,8 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import { getToken } from "@/app/actions";
 
-// Define the schema for validation using zod
+
 const questionSchema = z.object({
     question: z.string().min(1, "يرجى إدخال السؤال."),
     option1: z.string().min(1, "يرجى إدخال الخيار الأول."),
@@ -26,6 +27,20 @@ type QuestionFormData = z.infer<typeof questionSchema>;
 export default function CreateQuizPage() {
     const [questions, setQuestions] = useState<QuestionFormData[]>([]);
     const [currentTab, setCurrentTab] = useState(0);
+    const [token, setToken] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        async function fetchToken() {
+            try {
+                const token = await getToken();
+                setToken(token);
+            } catch (error) {
+                console.error('Error fetching token:', error);
+            }
+        }
+
+        fetchToken();
+    }, []);
     const { toast } = useToast();
     const form = useForm<QuestionFormData>({
         resolver: zodResolver(questionSchema),
@@ -39,16 +54,17 @@ export default function CreateQuizPage() {
 
     const onSubmit = async () => {
         try {
-            const response = await fetch("/api/contest/question/", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/contest/question/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    'token': `${token}`,
                 },
                 body: JSON.stringify(questions),
             });
-
-            if (!response.ok) {
-                throw new Error("Failed to submit quiz.");
+            const result = await response.json();
+            if (!result.ok) {
+                toast({ description: result.msg, variant: "destructive" });
             }
 
             toast({ description: "تم إرسال المسابقة بنجاح!" });

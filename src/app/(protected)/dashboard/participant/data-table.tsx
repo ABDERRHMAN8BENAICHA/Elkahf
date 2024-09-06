@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { MdOutlinePostAdd } from "react-icons/md";
 
-// Define the data structure
 export type Person = {
     firstName: string;
     lastName: string;
@@ -41,7 +40,6 @@ export type Person = {
     createdAt: string;
 };
 
-// Example data
 const exampleData: Person[] = [
     {
         firstName: "person 2",
@@ -50,10 +48,8 @@ const exampleData: Person[] = [
         answer: true,
         createdAt: "2024-08-27T17:19:26.274Z",
     },
-    // Add more entries here if needed
 ];
 
-// Define columns for the table
 const personColumns: ColumnDef<Person>[] = [
     {
         accessorKey: "firstName",
@@ -89,7 +85,6 @@ const personColumns: ColumnDef<Person>[] = [
     },
 ];
 
-// DataTable component
 interface DataTableProps<TData> {
     columns: ColumnDef<TData, any>[];
     data: TData[];
@@ -121,26 +116,28 @@ export function DataTable<TData>({
 
     return (
         <div dir="rtl">
-            <Button variant="default">
-                <Link href={`./categories/create`} className='flex w-full justify-between items-center space-x-2'>
-                    <div>
-                        <h1>إضافة فئة</h1>
-                    </div>
-                    <div>
-                        <MdOutlinePostAdd className='w-6 h-6' />
-                    </div>
-                </Link>
-            </Button>
             <div className="flex flex-col md:flex-row justify-between items-center space-x-2 p-2">
-                <div className="flex items-center py-4">
-                    <Input
-                        placeholder="تصفية الاسم..."
-                        value={(table.getColumn("firstName")?.getFilterValue() as string) ?? ""}
-                        onChange={(event) =>
-                            table.getColumn("firstName")?.setFilterValue(event.target.value)
-                        }
-                        className="max-w-sm w-[400px] md:w-[600px]"
-                    />
+                <div className="flex flex-col md:flex-row items-center py-4">
+                    <div className="p-2">
+                        <Input
+                            placeholder="تصفية الاسم..."
+                            value={(table.getColumn("firstName")?.getFilterValue() as string) ?? ""}
+                            onChange={(event) =>
+                                table.getColumn("firstName")?.setFilterValue(event.target.value)
+                            }
+                            className="max-w-sm w-[400px] md:w-[600px]"
+                        />
+                    </div>
+                    <div className="p-2">
+                        <Input
+                            placeholder="تصفية الرقم..."
+                            value={(table.getColumn("phone")?.getFilterValue() as string) ?? ""}
+                            onChange={(event) =>
+                                table.getColumn("phone")?.setFilterValue(event.target.value)
+                            }
+                            className="max-w-sm w-[400px] md:w-[600px]"
+                        />
+                    </div>
                 </div>
 
                 <DropdownMenu>
@@ -176,7 +173,7 @@ export function DataTable<TData>({
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id}>
+                                    <TableHead key={header.id} className="text-center">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -199,7 +196,7 @@ export function DataTable<TData>({
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="text-center">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()

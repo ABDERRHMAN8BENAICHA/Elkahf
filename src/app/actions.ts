@@ -1,27 +1,29 @@
-// 'use server';
+'use server';
 
-// import { cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 
-// export async function storeToken(data: string): Promise<void> {
-//     try {
-//         // Ensure `data` is a string. If `data` is an object, stringify it.
-//         const tokenString = typeof data === 'object' ? JSON.stringify(data) : data;
+export async function storeToken(data: string): Promise<void> {
+    try {
+        const tokenString = typeof data === 'object' ? JSON.stringify(data) : data;
 
-//         // Define cookie expiration (24 hours)
-//         const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        const oneDay = 24 * 60 * 60; 
 
-//         // Store token in cookies with a max age
-//         cookies().set('token', tokenString, { maxAge: oneDay });
-//         console.log('Token stored successfully.');
-//     } catch (error) {
-//         console.error('Error storing the token:', error);
-//     }
-// }
+        cookies().set('token', tokenString, { maxAge: oneDay });
+    } catch (error) {
+        console.error('Error storing the token:', error);
+    }
+}
 
+export async function getToken(): Promise<string | undefined> {
+    const cookieStore = cookies();
+    const token = cookieStore.get('token');
+    return token?.value;
+}
 
-
-// export function getToken() {
-//     const cookieStore = cookies()
-//     const token = cookieStore.get('token')
-//     return token
-// }
+export async function deleteToken(): Promise<void> {
+    try {
+        cookies().set('token', '', { expires: new Date(0) });
+    } catch (error) {
+        console.error('Error deleting the token:', error);
+    }
+}
