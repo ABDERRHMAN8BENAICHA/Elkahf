@@ -12,13 +12,14 @@ import { Button } from '@/components/ui/button';
 import { FiLogOut } from 'react-icons/fi';
 import { ChevronRightIcon } from 'lucide-react';
 import { deleteToken } from '@/app/actions';
-
+import { GiPodiumWinner } from "react-icons/gi";
 
 const data = [
     { title: 'الرئيسية', icon: <HomeIcon />, link: '/' },
     { title: 'المستخدمون', icon: <UsersIcon />, link: '/participant' },
     { title: 'الأسئلة', icon: <QuestionIcon />, link: '/question' },
     { title: 'تاريخ المسابقة', icon: <DateQuizIcon />, link: '/date-quiz' },
+    { title: 'اعلان الفائز', icon: <GiPodiumWinner />, link: '/winner' },
 ];
 
 export default function Page() {
