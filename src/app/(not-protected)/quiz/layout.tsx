@@ -15,7 +15,7 @@ export default function Layout({ children }: Props) {
         const checkCompetitionTime = () => {
             const competitionStartTime = localStorage.getItem('competitionDateTime');
             if (!competitionStartTime) {
-                router.push('/some-page'); 
+                router.push('/'); 
                 return;
             }
 
