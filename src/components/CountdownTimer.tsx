@@ -15,36 +15,42 @@ export default function CountdownTimer() {
     const router = useRouter()
 
     useEffect(() => {
-        const competitionEndTime = localStorage.getItem("competitionDateTime")
+        const fetchCompetitionTime = async () => {
+            try {
+                const response = await fetch('/api/competition-end-time')
+                const data = await response.json()
+                if (!data.ok) {
+                    throw new Error('Failed to fetch competition end time')
+                }
+                const competitionStart = new Date(data.data).getTime()
 
-        if (!competitionEndTime) {
-            console.error('No competition date time found in localStorage.')
-            return
-        }
+                const calculateTimeLeft = () => {
+                    const now = new Date().getTime()
+                    const difference = competitionStart - now
 
-        const competitionStart = new Date(competitionEndTime).getTime()
+                    if (difference > 0) {
+                        setTimeLeft({
+                            days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                            hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                            minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+                            seconds: Math.floor((difference % (1000 * 60)) / 1000),
+                        })
+                    } else {
+                        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+                        router.push('/quiz')
+                    }
+                }
 
-        const calculateTimeLeft = () => {
-            const now = new Date().getTime()
-            const difference = competitionStart - now
+                calculateTimeLeft()
+                const timer = setInterval(calculateTimeLeft, 1000)
 
-            if (difference > 0) {
-                setTimeLeft({
-                    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                    hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-                    minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-                    seconds: Math.floor((difference % (1000 * 60)) / 1000),
-                })
-            } else {
-                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-                router.push('/quiz')
+                return () => clearInterval(timer)
+            } catch (error) {
+                console.error('Error fetching competition time:', error)
             }
         }
 
-        calculateTimeLeft() 
-        const timer = setInterval(calculateTimeLeft, 1000)
-
-        return () => clearInterval(timer)
+        fetchCompetitionTime()
     }, [router])
 
     return (
@@ -55,20 +61,20 @@ export default function CountdownTimer() {
             <CardContent>
                 <div className="grid grid-cols-4 gap-4 text-center">
                     <div>
-                        <div className="text-5xl font-bold">{timeLeft.seconds}</div>
-                        <div className="text-sm">ثواني</div>
-                    </div>
-                    <div>
-                        <div className="text-5xl font-bold">{timeLeft.minutes}</div>
-                        <div className="text-sm">دقائق</div>
+                        <div className="text-5xl font-bold">{timeLeft.days}</div>
+                        <div className="text-sm">أيام</div>
                     </div>
                     <div>
                         <div className="text-5xl font-bold">{timeLeft.hours}</div>
                         <div className="text-sm">ساعات</div>
                     </div>
                     <div>
-                        <div className="text-5xl font-bold">{timeLeft.days}</div>
-                        <div className="text-sm">أيام</div>
+                        <div className="text-5xl font-bold">{timeLeft.minutes}</div>
+                        <div className="text-sm">دقائق</div>
+                    </div>
+                    <div>
+                        <div className="text-5xl font-bold">{timeLeft.seconds}</div>
+                        <div className="text-sm">ثواني</div>
                     </div>
                 </div>
             </CardContent>

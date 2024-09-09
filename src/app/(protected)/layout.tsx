@@ -9,34 +9,34 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-    const router = useRouter();
-    const [loading, setLoading] = useState(true);
+    // const router = useRouter();
+    // const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function checkAuth() {
-            try {
-                const token = await getToken();
-                if (!token) {
-                    router.push('/login');
-                } else {
-                    setLoading(false);
-                }
-            } catch (error) {
-                console.error('Error checking authentication:', error);
-                router.push('/login');
-            }
-        }
+    // useEffect(() => {
+    //     async function checkAuth() {
+    //         try {
+    //             const token = await getToken();
+    //             if (!token) {
+    //                 router.push('/login');
+    //             } else {
+    //                 setLoading(false);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error checking authentication:', error);
+    //             router.push('/login');
+    //         }
+    //     }
 
-        checkAuth();
-    }, [router]);
+    //     checkAuth();
+    // }, [router]);
 
-    if (loading) {
-        return (
-            <main className="flex items-center justify-center h-screen">
-                <div className="loader"></div>
-            </main>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <main className="flex items-center justify-center h-screen">
+    //             <div className="loader"></div>
+    //         </main>
+    //     );
+    // }
 
     return (
         <div>

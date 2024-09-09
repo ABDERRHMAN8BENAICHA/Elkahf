@@ -1,7 +1,6 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -51,49 +50,26 @@ function TimePicker({ value, onChange }: { value: Date; onChange: (date: Date) =
     )
 }
 
-function CountdownTimer({ competitionTime }: { competitionTime: Date }) {
-    const [timeLeft, setTimeLeft] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    })
-    const router = useRouter()
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            const now = new Date().getTime()
-            const difference = competitionTime.getTime() - now
-
-            if (difference > 0) {
-                setTimeLeft({
-                    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                    hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-                    minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-                    seconds: Math.floor((difference % (1000 * 60)) / 1000),
-                })
-            } else {
-                clearInterval(timer)
-                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-            }
-        }, 1000)
-
-        return () => clearInterval(timer)
-    }, [competitionTime, router])
-}
-
 export default function CompetitionControl() {
     const [dateTime, setDateTime] = useState<Date>(new Date())
 
     useEffect(() => {
-        const savedDateTime = localStorage.getItem("competitionDateTime")
-        if (savedDateTime) {
-            setDateTime(new Date(savedDateTime))
-        } else {
-            const nextThursday = getNextThursday()
-            setDateTime(nextThursday)
-            localStorage.setItem("competitionDateTime", nextThursday.toISOString())
+        const fetchTime = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/time/`)
+                const data = await res.json()
+                if (res.ok) {
+                    setDateTime(new Date(data.data))
+                } else {
+                    const nextThursday = getNextThursday()
+                    setDateTime(nextThursday)
+                }
+            } catch (error) {
+                console.error('Failed to fetch competition time:', error)
+            }
         }
+
+        fetchTime()
     }, [])
 
     const getNextThursday = () => {
@@ -111,12 +87,37 @@ export default function CompetitionControl() {
         return nextThursday
     }
 
-    const handleSave = () => {
-        localStorage.setItem("competitionDateTime", dateTime.toISOString())
-        toast({
-            title: "تم الحفظ بنجاح",
-            description: "تم حفظ موعد المسابقة بنجاح!",
-        })
+    const handleSave = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/time/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ time: dateTime.toISOString() }),
+            })
+            const data = await res.json()
+            if (res.ok) {
+                toast({
+                    title: "تم الحفظ بنجاح",
+                    description: "تم حفظ موعد المسابقة بنجاح!",
+                })
+            } else {
+                console.error('Failed to save competition time:', data.message)
+                toast({
+                    title: "فشل في الحفظ",
+                    description: data.message || "حدث خطأ أثناء محاولة حفظ موعد المسابقة.",
+                    variant: "destructive",
+                })
+            }
+        } catch (error) {
+            console.error('Failed to save competition time:', error)
+            toast({
+                title: "فشل في الحفظ",
+                description: "حدث خطأ أثناء محاولة حفظ موعد المسابقة.",
+                variant: "destructive",
+            })
+        }
     }
 
     const handleDateChange = (newDate: Date | undefined) => {
