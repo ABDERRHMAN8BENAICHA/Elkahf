@@ -1,4 +1,5 @@
-"use client"
+'use client';
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import confetti from 'canvas-confetti';
@@ -77,12 +78,19 @@ export default function WinnerAnnouncement() {
         }
     }, [winnerData]);
 
-    if (!winnerData) {
+    if (winnerData === null) {
         return (
             <main className="flex items-center justify-center min-h-screen">
-                <div className="loader"></div>
+                <Card className="w-full max-w-md">
+                    <CardHeader>
+                        <CardTitle className="text-2xl font-bold text-center">لا يوجد فائزين</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center">
+                        <span className="text-lg text-gray-500">عذرًا، لا يوجد فائزين في الوقت الحالي.</span>
+                    </CardContent>
+                </Card>
             </main>
-        )
+        );
     }
 
     return (
