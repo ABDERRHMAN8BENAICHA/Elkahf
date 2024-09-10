@@ -19,11 +19,8 @@ export default function ThankYouPage() {
                     <p className="mb-4">تمت إضافة معلوماتك بنجاح.</p>
                     <p className="mb-4">سوف نعلن عن الفائز في أقرب وقت. تابعونا على مواقع التواصل الاجتماعي</p>
                     <div className="flex justify-center space-x-8 mb-4">
-                        <Link href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
+                        <Link href="https://www.facebook.com/profile.php?id=100048092779407&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer">
                             <FaFacebookF className="w-6 h-6 text-blue-600" />
-                        </Link>
-                        <Link href="https://www.instagram.com/yourpage" target="_blank" rel="noopener noreferrer">
-                            <FaInstagram className="w-6 h-6 text-pink-600" />
                         </Link>
                     </div>
                 </CardContent>
