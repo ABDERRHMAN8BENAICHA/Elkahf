@@ -17,7 +17,7 @@ export default function CountdownTimer() {
     useEffect(() => {
         const fetchCompetitionTime = async () => {
             try {
-                const response = await fetch('/api/competition-end-time')
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/time/`)
                 const data = await response.json()
                 if (!data.ok) {
                     throw new Error('Failed to fetch competition end time')
