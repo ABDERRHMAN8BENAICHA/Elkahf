@@ -12,20 +12,27 @@ export default function Layout({ children }: Props) {
     const router = useRouter();
 
     useEffect(() => {
-        const checkCompetitionTime = () => {
-            const competitionStartTime = localStorage.getItem('competitionDateTime');
-            if (!competitionStartTime) {
-                router.push('/'); 
-                return;
-            }
+        const checkCompetitionTime = async () => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/time/`);
 
-            const startTime = new Date(competitionStartTime).getTime();
-            const now = new Date().getTime();
+                const data = await response.json();
 
-            if (now < startTime) {
-                router.push('/'); 
-            } else {
-                setLoading(false);
+                if (!data.ok) {
+                    throw new Error('Failed to fetch competition time');
+                }
+
+                const competitionStartTime = new Date(data.data).getTime();
+                const now = new Date().getTime();
+
+                if (now < competitionStartTime) {
+                    router.push('/');
+                } else {
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.error('Error checking competition time:', error);
+                router.push('/');
             }
         };
 
@@ -40,7 +47,5 @@ export default function Layout({ children }: Props) {
         );
     }
 
-    return (
-        <div>{children}</div>
-    );
+    return <div>{children}</div>;
 }
