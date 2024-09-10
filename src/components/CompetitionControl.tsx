@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -9,6 +9,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { format, setHours, setMinutes } from "date-fns"
 import { ar } from "date-fns/locale"
+import { getToken } from "@/utils/auth" // Import your token-fetching function
 
 function TimePicker({ value, onChange }: { value: Date; onChange: (date: Date) => void }) {
     const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'))
@@ -52,11 +53,32 @@ function TimePicker({ value, onChange }: { value: Date; onChange: (date: Date) =
 
 export default function CompetitionControl() {
     const [dateTime, setDateTime] = useState<Date>(new Date())
+    const [token, setToken] = useState<string | undefined>(undefined)
 
     useEffect(() => {
-        const fetchTime = async () => {
+        async function fetchToken() {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/time/`)
+                const token = await getToken()
+                setToken(token)
+            } catch (error) {
+                console.error('Error fetching token:', error)
+            }
+        }
+
+        fetchToken()
+    }, [])
+
+    useEffect(() => {
+        async function fetchTime() {
+            if (!token) return
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/time/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`, // Use Authorization header
+                    }
+                })
                 const data = await res.json()
                 if (res.ok) {
                     setDateTime(new Date(data.data))
@@ -70,7 +92,7 @@ export default function CompetitionControl() {
         }
 
         fetchTime()
-    }, [])
+    }, [token])
 
     const getNextThursday = () => {
         const now = new Date()
@@ -88,11 +110,13 @@ export default function CompetitionControl() {
     }
 
     const handleSave = async () => {
+        if (!token) return
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/time/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'token': `${token}`,
                 },
                 body: JSON.stringify({ time: dateTime.toISOString() }),
             })
