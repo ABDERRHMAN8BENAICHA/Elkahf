@@ -9,7 +9,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { format, setHours, setMinutes } from "date-fns"
 import { ar } from "date-fns/locale"
-import { getToken } from "@/utils/auth" // Import your token-fetching function
+import { getToken } from "@/app/actions"
 
 function TimePicker({ value, onChange }: { value: Date; onChange: (date: Date) => void }) {
     const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'))
