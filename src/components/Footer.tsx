@@ -53,7 +53,7 @@ export default function Footer() {
                 <div className="grid gap-4">
                     <h4 className="text-lg font-semibold">تابعنا</h4>
                     <div className="flex gap-4">
-                        <Link href="https://www.facebook.com/profile.php?id=100048092779407&mibextid=ZbWKwL" className="text-muted-foreground hover:text-foreground" prefetch={false}>
+                        <Link href="https://www.facebook.com/profile.php?id=100078325037621" className="text-muted-foreground hover:text-foreground" prefetch={false}>
                             <FaFacebookF className="h-5 w-5" />
                             <span className="sr-only">Facebook</span>
                         </Link>
